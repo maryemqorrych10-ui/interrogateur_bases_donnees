@@ -5,8 +5,12 @@ from app.config import settings
 from app.routers import connections, queries
 from app.schemas import HealthResponse
 
-# Create tables
-Base.metadata.create_all(bind=engine)
+# Create tables on startup
+try:
+    Base.metadata.create_all(bind=engine)
+    print("✅ Database tables created successfully")
+except Exception as e:
+    print(f"⚠️ Error creating tables: {e}")
 
 # Initialize app
 app = FastAPI(
